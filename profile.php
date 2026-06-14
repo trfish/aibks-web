@@ -22,6 +22,17 @@
             Посты
         </a>
 
+        <?php if(isset($_COOKIE["User"])): ?>
+            <form
+            action="logout.php"
+            method="POST">
+                <button class="btn btn-danger"
+                        type="submit">
+                    Выход
+                </button>
+            </form>
+        <?php endif; ?>
+
     </div>
 </nav>
 
@@ -69,6 +80,8 @@
         </h2>
 
         <form id="postForm"
+              method="POST"
+              enctype="multipart/form-data"
               class="d-flex flex-column gap-3">
 
             <div class="form-group">
@@ -77,6 +90,7 @@
                 </label>
 
                 <input type="text"
+                       name="postTitle"
                        class="form-control my-input"
                        placeholder="Заголовок"
                        required>
@@ -88,6 +102,7 @@
                 </label>
 
                 <textarea
+                    name="postContent"
                     class="form-control my-input"
                     rows="5"
                     placeholder="Текст"
@@ -100,6 +115,7 @@
                 </label>
 
                 <input type="file"
+                       name="file"
                        class="form-control my-input">
             </div>
 
@@ -117,3 +133,47 @@
 
 </body>
 </html>
+
+<?php
+
+if(!isset($_COOKIE["User"]))
+{
+    header("Location: login.php");
+    exit();
+}
+
+$link = mysqli_connect(
+    "127.0.0.1",
+    "root",
+    "password",
+    "first"
+);
+
+if(isset($_POST["postTitle"]))
+{
+    $title = $_POST["postTitle"];
+    $main_text = $_POST["postContent"];
+
+    if(!$title || !$main_text)
+        die("Нет данных");
+
+    $sql =
+    "INSERT INTO posts
+    (title,main_text)
+    VALUES
+    ('$title','$main_text')";
+
+        if(!mysqli_query($link,$sql))
+            die("Ошибка добавления поста");
+}
+
+if(!empty($_FILES["file"]))
+{
+    move_uploaded_file(
+        $_FILES["file"]["tmp_name"],
+        "upload/" .
+        $_FILES["file"]["name"]
+    );
+}
+
+?>

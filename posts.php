@@ -1,3 +1,25 @@
+<?php
+
+$link = mysqli_connect(
+    "127.0.0.1",
+    "root",
+    "password",
+    "first"
+);
+
+$id = $_GET["id"];
+
+$sql = "SELECT * FROM posts WHERE id=$id";
+
+$res = mysqli_query($link,$sql);
+
+$row = mysqli_fetch_array($res);
+
+$title = $row["title"];
+$main_text = $row["main_text"];
+
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -10,25 +32,19 @@
 </head>
 <body>
 
-<div class="container mt-5">
+    <div class="container mt-5">
 
-    <h1>Посты</h1>
+        <div class="container mt-5">
 
-    <div class="card bg-dark text-light mb-3">
-        <div class="card-body">
-            <h5>Первый пост</h5>
-            <p>Описание первого поста.</p>
+            <h1><?php echo $title; ?></h1>
+
+            <p>
+                <?php echo $main_text; ?>
+            </p>
+
         </div>
-    </div>
 
-    <div class="card bg-dark text-light">
-        <div class="card-body">
-            <h5>Второй пост</h5>
-            <p>Описание второго поста.</p>
-        </div>
     </div>
-
-</div>
 
 </body>
 </html>

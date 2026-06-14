@@ -28,7 +28,7 @@
                        class="form-control my-input"
                        placeholder="Пароль">
 
-                <button class="btn btn-primary" type="submit">
+                <button class="btn btn-primary" type="submit" name="submit">
                     Войти
                 </button>
 
@@ -45,3 +45,52 @@
 
 </body>
 </html>
+
+<?php
+
+require_once("db.php");
+
+if(isset($_COOKIE["User"]))
+{
+    header("Location: profile.php");
+    exit();
+}
+
+$link = mysqli_connect(
+    "127.0.0.1",
+    "root",
+    "password",
+    "first"
+);
+
+if(isset($_POST["submit"]))
+{
+    $login = $_POST["login"];
+    $pass = $_POST["password"];
+
+    $sql =
+    "SELECT *
+    FROM users
+    WHERE username='$login'
+    AND password='$pass'";
+
+    $result = mysqli_query($link,$sql);
+
+    if(mysqli_num_rows($result)==1)
+    {
+        setcookie(
+            "User",
+            $login,
+            time()+7200
+        );
+
+        header("Location: profile.php");
+        exit();
+    }
+    else
+    {
+        echo "Неверный логин или пароль";
+    }
+}
+
+?>

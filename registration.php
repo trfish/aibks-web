@@ -16,7 +16,7 @@
 
             <h1 class="mb-4">Регистрация</h1>
 
-            <form action="#" method="POST" class="d-flex flex-column gap-3">
+            <form action="registration.php" method="POST" class="d-flex flex-column gap-3">
 
                 <input type="text"
                        name="login"
@@ -33,7 +33,7 @@
                        class="form-control my-input"
                        placeholder="Пароль">
 
-                <button class="btn btn-primary" type="submit">
+                <button class="btn btn-primary" type="submit" name="submit">
                     Зарегистрироваться
                 </button>
 
@@ -50,3 +50,48 @@
 
 </body>
 </html>
+
+<?php
+
+require_once("db.php");
+
+if(isset($_COOKIE["User"]))
+{
+    header("Location: profile.php");
+    exit();
+}
+
+$link = mysqli_connect(
+    "127.0.0.1",
+    "root",
+    "password",
+    "first"
+);
+
+if(isset($_POST["submit"]))
+{
+    $login = $_POST["login"];
+    $email = $_POST["email"];
+    $pass = $_POST["password"];
+
+    if(!$login || !$email || !$pass)
+        die("Заполните все поля");
+
+    $sql =
+    "INSERT INTO users
+    (username,email,password)
+    VALUES
+    ('$login','$email','$pass')";
+
+        if(!mysqli_query($link,$sql))
+        {
+            echo "Ошибка регистрации";
+        }
+        else
+        {
+            header("Location: login.php");
+            exit();
+        }
+}
+
+?>

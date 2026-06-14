@@ -31,3 +31,51 @@
 
 </body>
 </html>
+
+<?php if(!isset($_COOKIE["User"])) { ?>
+
+    <a href="registration.php"
+    class="btn btn-primary">
+    Регистрация
+    </a>
+
+    <a href="login.php"
+    class="btn btn-primary">
+    Вход
+    </a>
+
+    <?php } else { ?>
+
+        <?php
+
+        $link = mysqli_connect(
+            "127.0.0.1",
+            "root",
+            "password",
+            "first"
+        );
+
+        $sql = "SELECT * FROM posts";
+
+        $res = mysqli_query($link,$sql);
+
+        if(mysqli_num_rows($res) > 0)
+        {
+            while($post = mysqli_fetch_array($res))
+            {
+                echo
+                "<a href='posts.php?id="
+                .$post["id"].
+                "'>"
+                .$post["title"].
+                "</a><br>";
+            }
+        }
+        else
+        {
+            echo "Нет постов";
+        }
+
+        ?>
+
+        <?php } ?>
