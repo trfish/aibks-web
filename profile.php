@@ -18,22 +18,20 @@
             <span class="text-light">Профиль</span>
         </a>
 
-        <div class="container-fluid">
-            <a href="posts.php" class="btn btn-primary">
-                Посты
-            </a>
+        <a href="posts.php" class="btn btn-primary">
+            Посты
+        </a>
 
-            <?php if(isset($_COOKIE["User"])): ?>
-                <form
-                action="logout.php"
-                method="POST">
-                    <button class="btn btn-danger"
-                            type="submit">
-                        Выход
-                    </button>
-                </form>
-            <?php endif; ?>
-        </div>
+        <?php if(isset($_COOKIE["User"])): ?>
+            <form
+            action="logout.php"
+            method="POST">
+                <button class="btn btn-danger"
+                        type="submit">
+                    Выход
+                </button>
+            </form>
+        <?php endif; ?>
 
     </div>
 </nav>
