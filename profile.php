@@ -181,5 +181,6 @@ if(!empty($_FILES["file"]))
     {
         echo "upload failed!";
     }
+}
 
 ?>
