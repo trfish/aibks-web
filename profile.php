@@ -18,7 +18,7 @@
             <span class="text-light">Профиль</span>
         </a>
 
-        <div>
+        <div class="container-fluid">
             <a href="posts.php" class="btn btn-primary">
                 Посты
             </a>
